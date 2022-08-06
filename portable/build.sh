@@ -41,8 +41,8 @@ echo "==============================================================="
 
 cd ${BASE_DIR}
 
-echo "docker run -it -v ${BASE_DIR}/${GIT_REPO}:/repo chromium-builder:${RELEASE}-${LLVM_VERSION} /bin/bash -c \"LLVM_VERSION=${LLVM_VERSION} /repo/build.sh\""
-docker run -it -v ${BASE_DIR}/${GIT_REPO}:/repo chromium-builder:${RELEASE}-${LLVM_VERSION} /bin/bash -c "LLVM_VERSION=${LLVM_VERSION} /repo/build.sh"
+echo "docker run -it -v ${BASE_DIR}/${GIT_REPO}:/repo chromium-builder:${RELEASE}-${LLVM_VERSION} /bin/bash -c \"apt-get update && apt-get -y upgrade && LLVM_VERSION=${LLVM_VERSION} /repo/build.sh\""
+docker run -it -v ${BASE_DIR}/${GIT_REPO}:/repo chromium-builder:${RELEASE}-${LLVM_VERSION} /bin/bash -c "apt-get update && apt-get -y upgrade && LLVM_VERSION=${LLVM_VERSION} /repo/build.sh"
 
 BUILD_END=$(date)
 echo "==============================================================="
