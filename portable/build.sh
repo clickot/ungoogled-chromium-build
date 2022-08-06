@@ -10,7 +10,6 @@ LLVM_FULL_VERSION=${2:-'15.0.0'}
 LLVM_VERSION=$(echo ${LLVM_FULL_VERSION}| cut -d. -f1)
 DISTRO=$(echo ${DISTRO_RELEASE}| cut -d- -f1)
 RELEASE=$(echo ${DISTRO_RELEASE}| cut -d- -f2)
-[ "${LLVM_VERSION}" == "15" ]  || REPO_POSTFIX="-${LLVM_VERSION}"
 
 IMAGE="chromium-builder:${RELEASE}-${LLVM_VERSION}"
 
@@ -18,7 +17,7 @@ cd $BASE_DIR
 
 if [ -z "$(docker images -q ${IMAGE})" ] ; then
     echo -e "image '${IMAGE}' not found, building it first.\n"
-    (cd $BASE_DIR/../builder && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg LLVM_FULL_VERSION=${LLVM_FULL_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} .)
+    ( cd $BASE_DIR/../builder && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg LLVM_FULL_VERSION=${LLVM_FULL_VERSION} . )
 else
     echo -e "reusing existing image '${IMAGE}'...\n"
 fi
