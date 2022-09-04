@@ -15,17 +15,14 @@ RUN apt-get update --fix-missing && apt-get -y upgrade
 RUN apt-get -y --no-install-recommends install ca-certificates wget lsb-release software-properties-common gnupg2
 
 ## add node_16 repo to get a newer nodejs version than 12 (leeds to build errors due to missing imports since chromium 105.xx)
-#RUN wget -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-#RUN add-apt-repository "deb https://deb.nodesource.com/node_16.x ${RELEASE} main"
-#RUN apt-get update
+RUN wget -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+RUN add-apt-repository "deb https://deb.nodesource.com/node_16.x ${RELEASE} main"
+RUN apt-get update
 
 ## install all needed distro packages
 RUN apt-get -y --no-install-recommends install git debhelper python-is-python3 python3 pkg-config ninja-build python3-jinja2 gsettings-desktop-schemas-dev flex yasm xvfb wdiff gperf bison valgrind xz-utils x11-apps xfonts-base libglew-dev libgl1-mesa-dev libglu1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev mesa-common-dev libxt-dev libre2-dev libgbm-dev libpng-dev libxss-dev libelf-dev libvpx-dev libpci-dev libcap-dev libdrm-dev libicu-dev libffi-dev libkrb5-dev libexif-dev libflac-dev libudev-dev libopus-dev libwebp-dev libxtst-dev libjpeg-dev libxml2-dev libgtk-3-dev libxslt1-dev liblcms2-dev libpulse-dev libpam0g-dev libsnappy-dev libavutil-dev libavcodec-dev libavformat-dev libglib2.0-dev libasound2-dev libjsoncpp-dev libspeechd-dev libminizip-dev libhunspell-dev libusb-1.0-0-dev libopenjp2-7-dev libmodpbase64-dev libnss3-dev libnspr4-dev libcups2-dev libevent-dev libjs-jquery libjs-jquery-flot libgcrypt20-dev libva-dev fonts-ipafont-gothic fonts-ipafont-mincho uuid-dev nodejs uglifyjs.terser node-typescript xcb-proto python3-xcbgen python-setuptools libx11-xcb-dev libxcb-dri3-dev libxshmfence-dev imagemagick desktop-file-utils binutils libcurl4-openssl-dev
 ## additionals needed for debian build
-RUN apt-get -y install libpipewire-0.3 elfutils node-typescript quilt
-## fix nodejs related stuff
-#RUN [ -L "/usr/bin/nodejs" ] || ln -s /usr/bin/node /usr/bin/nodejs 
-#RUN npm install -g npm@8.19.0 commander 
+RUN apt-get -y install libpipewire-0.3 elfutils quilt
 
 WORKDIR /root
 
@@ -44,7 +41,8 @@ RUN rm -f /usr/bin/lld && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld &&\
   rm -f /usr/bin/ld.lld && ln -s /usr/bin/ld.lld-${LLVM_VERSION} /usr/bin/ld.lld &&\
   rm -f /usr/bin/lld-link && ln -s /usr/bin/lld-link-${LLVM_VERSION} /usr/bin/lld-link
 RUN ln -s /usr/lib/llvm-${LLVM_VERSION}/lib/clang/${LLVM_FULL_VERSION}/share /usr/lib/clang/${LLVM_FULL_VERSION}/share 
-RUN [ -L "/usr/bin/nodejs" ] || ln -s /usr/bin/node /usr/bin/nodejs 
+
+#RUN npm install -g npm commander
 
 ## avoid privacy error messages
 RUN git config --global --add safe.directory /repo/ungoogled-chromium-portablelinux
