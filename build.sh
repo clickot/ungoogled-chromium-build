@@ -45,4 +45,4 @@ cd "$_src_dir"
 
 (cd "$_src_dir/third_party/node" && npm install node-linux-x64)
 
-ninja -C out/Default chrome chrome_sandbox chromedriver
+ninja -j 20 -C out/Default chrome chrome_sandbox chromedriver
