@@ -7,7 +7,7 @@ echo "==============================================================="
 echo "  package tar.xz start at $PACKAGE_START"
 echo "==============================================================="
 
-ROOT_DIR=$(cd ${CURRENT_DIR}/.. && pwd)
+ROOT_DIR=$(cd ${CURRENT_DIR} && pwd)
 
 chromium_version=$(cat ${ROOT_DIR}/ungoogled-chromium/chromium_version.txt)
 ungoogled_revision=$(cat ${ROOT_DIR}/ungoogled-chromium/revision.txt)
@@ -57,7 +57,7 @@ echo "  package tar.xz   start at $PACKAGE_START"
 echo "  package AppImage start at $APPIMAGE_START"
 echo "==============================================================="
 
-./pkg2appimage ungoogled-chromium.yml
+cd ${CURRENT_DIR}/packages && ./pkg2appimage ungoogled-chromium.yml
 
 mv out/*.AppImage ${CURRENT_DIR}/${FILE_PREFIX}.AppImage
 

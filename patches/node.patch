@@ -1,0 +1,11 @@
+--- a/third_party/node/node.py
++++ b/third_party/node/node.py
+@@ -15,7 +15,7 @@ def GetBinaryPath():
+                  'node-darwin-x64')
+   return os_path.join(os_path.dirname(__file__), *{
+     'Darwin': ('mac', darwin_name, 'bin', 'node'),
+-    'Linux': ('linux', 'node-linux-x64', 'bin', 'node'),
++    'Linux': ('node_modules', 'node-linux-x64', 'bin', 'node'),
+     'Windows': ('win', 'node.exe'),
+   }[platform.system()])
+ 

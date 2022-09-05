@@ -17,20 +17,12 @@ cd $BASE_DIR
 
 if [ -z "$(docker images -q ${IMAGE})" ] ; then
     echo -e "image '${IMAGE}' not found, building it first.\n"
-    ( cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg LLVM_FULL_VERSION=${LLVM_FULL_VERSION} . )
+    (cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg LLVM_FULL_VERSION=${LLVM_FULL_VERSION} .)
 else
     echo -e "reusing existing image '${IMAGE}'...\n"
 fi
- 
-if [ -d ${GIT_REPO} ] ; then
-    echo -e "reusing existing repo dir '${GIT_REPO}' ...\n"
-else
-    git clone --recurse-submodules https://github.com/ungoogled-software/${GIT_REPO}.git
-    cd ${GIT_REPO}
-    GIT_TAG=$(git describe --tags --abbrev=0)
-    echo "git checkout ${GIT_TAG}"
-    git checkout ${GIT_TAG}
-fi
+
+git submodule update --init --recursive
 
 BUILD_START=$(date)
 echo "==============================================================="

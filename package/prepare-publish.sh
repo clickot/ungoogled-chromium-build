@@ -3,16 +3,15 @@
 WORKSPACE_DIR="/data/users/torsten/workspace"
 SOFTWARE_DIR="/data/users/torsten/software"
 
-PATH_TO_BUILD_GIT_REPO="${WORKSPACE_DIR}/clickot/ungoogled-chromium-portablelinux"
+PATH_TO_BUILD_GIT_REPO="${WORKSPACE_DIR}/clickot/ungoogled-chromium-build"
 PATH_TO_PUBLISH_GIT_REPO="${WORKSPACE_DIR}/clickot/ungoogled-chromium-binaries"
 BINARIES_DIR="${SOFTWARE_DIR}/ungoogled-chromium"
 
 REPO_TAG="$(cd ${PATH_TO_BUILD_GIT_REPO} && git describe --tags --abbrev=0)"
 TAG="${REPO_TAG%.1}"
-#TAG="102.0.5005.61-1"
 
 cd ${PATH_TO_PUBLISH_GIT_REPO}
-# reset to upstream repo
+# forced reset to upstream repo
 git checkout master && git pull --rebase
 git fetch upstream
 git reset --hard upstream/master
