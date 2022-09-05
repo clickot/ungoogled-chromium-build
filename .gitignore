@@ -1,10 +1,4 @@
-**/ungoogled-chromium-portablelinux
-**/ungoogled-chromium-debian
-**/AppImages
-
-**/ungoogled-chromium
-**/out
-**/build
+**/target
 *.tar.xz
 *.AppImage
 

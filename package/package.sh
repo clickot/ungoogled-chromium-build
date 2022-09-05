@@ -7,7 +7,7 @@ echo "==============================================================="
 echo "  package tar.xz start at $PACKAGE_START"
 echo "==============================================================="
 
-ROOT_DIR=${CURRENT_DIR}/ungoogled-chromium-portablelinux
+ROOT_DIR=$(cd ${CURRENT_DIR}/.. && pwd)
 
 chromium_version=$(cat ${ROOT_DIR}/ungoogled-chromium/chromium_version.txt)
 ungoogled_revision=$(cat ${ROOT_DIR}/ungoogled-chromium/revision.txt)
