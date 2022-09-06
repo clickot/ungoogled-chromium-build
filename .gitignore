@@ -1,4 +1,6 @@
+**/package/ungoogled-chromium
 **/target
+*.tar
 *.tar.xz
 *.AppImage
 

@@ -7,7 +7,7 @@ echo "==============================================================="
 echo "  package tar.xz start at $PACKAGE_START"
 echo "==============================================================="
 
-ROOT_DIR=$(cd ${CURRENT_DIR} && pwd)
+ROOT_DIR=$(cd ${CURRENT_DIR}/.. && pwd)
 
 chromium_version=$(cat ${ROOT_DIR}/ungoogled-chromium/chromium_version.txt)
 ungoogled_revision=$(cat ${ROOT_DIR}/ungoogled-chromium/revision.txt)
@@ -40,26 +40,24 @@ xdg-mime
 xdg-settings"
 
 mkdir ${CURRENT_DIR}/${FILE_PREFIX}_linux
-cp ${ROOT_DIR}/package/README ${CURRENT_DIR}/${FILE_PREFIX}_linux
+cp ${CURRENT_DIR}/README ${CURRENT_DIR}/${FILE_PREFIX}_linux
 for i in $FILES ; do 
     cp -r ${ROOT_DIR}/target/src/out/Default/$i ${CURRENT_DIR}/${FILE_PREFIX}_linux
 done
 
 (cd ${CURRENT_DIR} && tar cf ${FILE_PREFIX}_linux.tar ${FILE_PREFIX}_linux)
 
-rm -rf ${CURRENT_DIR}/${FILE_PREFIX}_linux && xz "${CURRENT_DIR}/${FILE_PREFIX}_linux.tar"
+rm -rf ${CURRENT_DIR}/${FILE_PREFIX}_linux && xz "${CURRENT_DIR}/${FILE_PREFIX}_linux.tar" 
+
+APPIMAGE_START=$(date)
 
 set +eux
 
-APPIMAGE_START=$(date)
-echo "==============================================================="
-echo "  package tar.xz   start at $PACKAGE_START"
-echo "  package AppImage start at $APPIMAGE_START"
-echo "==============================================================="
+./pkg2appimage ungoogled-chromium.yml
 
-cd ${CURRENT_DIR}/packages && ./pkg2appimage ungoogled-chromium.yml
-
-mv out/*.AppImage ${CURRENT_DIR}/${FILE_PREFIX}.AppImage
+mv out/*.AppImage ${ROOT_DIR}/${FILE_PREFIX}.AppImage
+mv "${CURRENT_DIR}/${FILE_PREFIX}_linux.tar.xz" ${ROOT_DIR}
+rm -rf out ungoogled-chromium
 
 APPIMAGE_END=$(date)
 echo "==============================================================="
