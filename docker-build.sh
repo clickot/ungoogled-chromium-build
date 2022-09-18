@@ -3,15 +3,15 @@
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 GIT_REPO="ungoogled-chromium"
 
-DISTRO_RELEASE=${1:-'debian-bullseye'}
-#DISTRO_RELEASE=${1:-'ubuntu-jammy'}
+DISTRO_RELEASE=${1:-'debian:bullseye'}
+#DISTRO_RELEASE=${1:-'ubuntu:jammy'}
 LLVM_FULL_VERSION=${2:-'15.0.1'}
 
 LLVM_VERSION=$(echo ${LLVM_FULL_VERSION}| cut -d. -f1)
-DISTRO=$(echo ${DISTRO_RELEASE}| cut -d- -f1)
-RELEASE=$(echo ${DISTRO_RELEASE}| cut -d- -f2)
+DISTRO=$(echo ${DISTRO_RELEASE}| cut -d':' -f1)
+RELEASE=$(echo ${DISTRO_RELEASE}| cut -d':' -f2)
 
-IMAGE="chromium-builder:${RELEASE}-${LLVM_VERSION}"
+IMAGE="chromium-builder-${RELEASE}:llvm-${LLVM_VERSION}"
 
 cd $BASE_DIR 
 
@@ -31,8 +31,8 @@ echo "==============================================================="
 
 cd ${BASE_DIR}
 
-echo "docker run -it -v ${BASE_DIR}:/repo chromium-builder:${RELEASE}-${LLVM_VERSION} /bin/bash -c \"LLVM_VERSION=${LLVM_VERSION} /repo/build.sh\""
-docker run -it -v ${BASE_DIR}:/repo chromium-builder:${RELEASE}-${LLVM_VERSION} /bin/bash -c "LLVM_VERSION=${LLVM_VERSION} /repo/build.sh"
+echo "docker run -it -v ${BASE_DIR}:/repo ${IMAGE} /bin/bash -c \"LLVM_VERSION=${LLVM_VERSION} /repo/build.sh\""
+docker run -it -v ${BASE_DIR}:/repo ${IMAGE} /bin/bash -c "LLVM_VERSION=${LLVM_VERSION} /repo/build.sh"
 
 BUILD_END=$(date)
 echo "==============================================================="
