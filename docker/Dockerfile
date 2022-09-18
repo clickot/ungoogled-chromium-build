@@ -6,7 +6,7 @@ FROM ${DISTRO}:${RELEASE}
 ARG DISTRO
 ARG RELEASE
 ARG LLVM_VERSION="15"
-ARG LLVM_FULL_VERSION="15.0.0"
+ARG LLVM_FULL_VERSION="15.0.1"
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && export DEBIAN_FRONTEND=noninteractive
 

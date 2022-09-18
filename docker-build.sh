@@ -5,7 +5,7 @@ GIT_REPO="ungoogled-chromium"
 
 DISTRO_RELEASE=${1:-'debian-bullseye'}
 #DISTRO_RELEASE=${1:-'ubuntu-jammy'}
-LLVM_FULL_VERSION=${2:-'15.0.0'}
+LLVM_FULL_VERSION=${2:-'15.0.1'}
 
 LLVM_VERSION=$(echo ${LLVM_FULL_VERSION}| cut -d. -f1)
 DISTRO=$(echo ${DISTRO_RELEASE}| cut -d- -f1)
