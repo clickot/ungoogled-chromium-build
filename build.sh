@@ -3,6 +3,8 @@
 # Simple build script for Portable Linux
 # NOTE: This script will delete all build intermediates every time it runs. Proceed with caution.
 
+apt-get update && apt-get upgrade
+
 _root_dir=$(dirname $(readlink -f $0))
 _download_cache="$_root_dir/target/download_cache"
 _src_dir="$_root_dir/target/src"

@@ -6,7 +6,7 @@ FROM ${DISTRO}:${RELEASE}
 ARG DISTRO
 ARG RELEASE
 ARG LLVM_VERSION="15"
-ARG LLVM_FULL_VERSION="15.0.1"
+ARG LLVM_FULL_VERSION="15.0.2"
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && export DEBIAN_FRONTEND=noninteractive
 
@@ -18,7 +18,7 @@ RUN apt-get -y install ca-certificates wget lsb-release software-properties-comm
 RUN wget -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 RUN add-apt-repository "deb https://deb.nodesource.com/node_16.x ${RELEASE} main"
 RUN apt-get update
-RUN apt-get -y install nodejs
+RUN apt-get -y install nodejs && npm install -g npm@latest
 
 ## install all needed distro packages
 RUN apt-get -y install git debhelper python-is-python3 python3 pkg-config ninja-build python3-jinja2 gsettings-desktop-schemas-dev flex yasm xvfb wdiff gperf bison valgrind xz-utils x11-apps xfonts-base libglew-dev libgl1-mesa-dev libglu1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev mesa-common-dev libxt-dev libre2-dev libgbm-dev libpng-dev libxss-dev libelf-dev libvpx-dev libpci-dev libcap-dev libdrm-dev libicu-dev libffi-dev libkrb5-dev libexif-dev libflac-dev libudev-dev libopus-dev libwebp-dev libxtst-dev libjpeg-dev libxml2-dev libgtk-3-dev libxslt1-dev liblcms2-dev libpulse-dev libpam0g-dev libsnappy-dev libavutil-dev libavcodec-dev libavformat-dev libglib2.0-dev libasound2-dev libjsoncpp-dev libspeechd-dev libminizip-dev libhunspell-dev libusb-1.0-0-dev libopenjp2-7-dev libmodpbase64-dev libnss3-dev libnspr4-dev libcups2-dev libevent-dev libjs-jquery libjs-jquery-flot libgcrypt20-dev libva-dev fonts-ipafont-gothic fonts-ipafont-mincho uuid-dev xcb-proto python3-xcbgen python-setuptools libx11-xcb-dev libxcb-dri3-dev libxshmfence-dev imagemagick desktop-file-utils binutils libcurl4-openssl-dev
@@ -41,6 +41,8 @@ RUN rm -f /usr/bin/lld && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld &&\
 
 ## avoid privacy error messages
 RUN git config --global --add safe.directory /repo/ungoogled-chromium-portablelinux
+
+RUN echo 'alias ll="ls -al"' >> /root/.bashrc
 
 RUN mkdir /repo
 WORKDIR /repo
