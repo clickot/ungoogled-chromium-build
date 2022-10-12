@@ -4,21 +4,15 @@
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 GIT_REPO="ungoogled-chromium"
 
-llvm_full_version() {
-    #echo $(curl -s https://api.github.com/repos/llvm/llvm-project/releases/latest | jq .tag_name | sed 's/llvmorg\-//' | sed 's/\"//g') 
-    echo "15.0.3"
-}
-
-
 DISTRO_RELEASE=${1:-'debian:bullseye'}
 #DISTRO_RELEASE=${1:-'ubuntu:jammy'}
-LLVM_FULL_VERSION=${2:-"$(llvm_full_version)"}
+LLVM_VERSION=${2:-'15'}
 
-LLVM_VERSION=$(echo ${LLVM_FULL_VERSION}| cut -d. -f1)
 DISTRO=$(echo ${DISTRO_RELEASE}| cut -d':' -f1)
 RELEASE=$(echo ${DISTRO_RELEASE}| cut -d':' -f2)
 
-echo -e "using DISTRO='$DISTRO' RELEASE='$RELEASE' LLVM_VERSION='$LLVM_VERSION' LLVM_FULL_VERSION='$LLVM_FULL_VERSION'\n" 
+#LLVM_FULL_VERSION=$(curl -s https://api.github.com/repos/llvm/llvm-project/releases/latest | jq .tag_name | sed 's/llvmorg\-//' | sed 's/\"//g') 
+echo -e "using DISTRO='$DISTRO' RELEASE='$RELEASE' LLVM_VERSION='$LLVM_VERSION'\n" 
 
 IMAGE="chromium-builder-${RELEASE}:llvm-${LLVM_VERSION}"
 
@@ -26,7 +20,7 @@ cd $BASE_DIR
 
 if [ -z "$(docker images -q ${IMAGE})" ] ; then
     echo -e "image '${IMAGE}' not found, building it first.\n"
-    (cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg LLVM_FULL_VERSION=${LLVM_FULL_VERSION} .)
+    (cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} .)
 else
     echo -e "reusing existing image '${IMAGE}'...\n"
 fi

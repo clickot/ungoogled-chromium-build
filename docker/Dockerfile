@@ -6,7 +6,6 @@ FROM ${DISTRO}:${RELEASE}
 ARG DISTRO
 ARG RELEASE
 ARG LLVM_VERSION="15"
-ARG LLVM_FULL_VERSION="15.0.2"
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && export DEBIAN_FRONTEND=noninteractive
 
@@ -34,10 +33,11 @@ RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-${LLVM_VER
  && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-${LLVM_VERSION} 800\
  && update-alternatives --install /usr/bin/llvm-ar llvm-ar /usr/bin/llvm-ar-${LLVM_VERSION} 800\
  && update-alternatives --install /usr/bin/llvm-nm llvm-nm /usr/bin/llvm-nm-${LLVM_VERSION} 800
-RUN rm -f /usr/bin/lld && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld &&\
+RUN llvm_package_version=$(apt list llvm-15-dev | grep -Po "\d+\.\d+\.\d+") &&\
+  rm -f /usr/bin/lld && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld &&\
   rm -f /usr/bin/ld.lld && ln -s /usr/bin/ld.lld-${LLVM_VERSION} /usr/bin/ld.lld &&\
   rm -f /usr/bin/lld-link && ln -s /usr/bin/lld-link-${LLVM_VERSION} /usr/bin/lld-link &&\
-  ln -s /usr/lib/llvm-${LLVM_VERSION}/lib/clang/${LLVM_FULL_VERSION}/share /usr/lib/clang/${LLVM_FULL_VERSION}/share 
+  ln -s /usr/lib/llvm-${LLVM_VERSION}/lib/clang/${llvm_package_version}/share /usr/lib/clang/${llvm_package_version}/share 
 
 ## avoid privacy error messages
 RUN git config --global --add safe.directory /repo/ungoogled-chromium-portablelinux
