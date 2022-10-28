@@ -42,7 +42,7 @@ export CFLAGS+="-resource-dir=${_llvm_resource_dir} -B${LLVM_BIN}"
 
 cd "$_src_dir"
 
-## hack to get along a check for a certain llvm latest version
+## hack to bypass the check for a certain llvm package version (seems to be introduced in chromium 107.xx)
 sed -i 's/ReadStampFile(STAMP_FILE).partition\(.*\)\[0\]/PACKAGE_VERSION/' ./tools/clang/scripts/update.py
 
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
