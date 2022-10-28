@@ -42,6 +42,9 @@ export CFLAGS+="-resource-dir=${_llvm_resource_dir} -B${LLVM_BIN}"
 
 cd "$_src_dir"
 
+## hack to get along a check for a certain llvm latest version
+sed -i 's/ReadStampFile(STAMP_FILE).partition\(.*\)\[0\]/PACKAGE_VERSION/' ./tools/clang/scripts/update.py
+
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./out/Default/gn gen out/Default --fail-on-unused-args
 
