@@ -20,8 +20,8 @@ IMAGE="chromium-builder-${RELEASE}:llvm-${LLVM_VERSION}"
 cd $BASE_DIR 
 
 if [ -z "$(docker images -q ${IMAGE})" ] ; then
-    echo -e "image '${IMAGE}' not found, building it first.\ndocker build -t ${IMAGE} --build-arg ISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} ."
-    (cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg ISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} . )
+    echo -e "image '${IMAGE}' not found, building it first.\ndocker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} ."
+    (cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} . )
 else
     echo -e "reusing existing image '${IMAGE}'...\n"
 fi
