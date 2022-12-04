@@ -7,8 +7,7 @@ ARG DISTRO
 ARG RELEASE
 ARG LLVM_VERSION="15"
 ARG REPO_POSTFIX="-${LLVM_VERSION}"
-#ARG LLVM_VERSION="16"
-#ARG REPO_POSTFIX=""
+ARG NODE_VERSION="16"
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && export DEBIAN_FRONTEND=noninteractive
 
@@ -18,7 +17,7 @@ RUN apt-get -y install ca-certificates wget lsb-release software-properties-comm
 
 ## add node_18 repo and get a newer nodejs version than 12 (leeds to build errors due to missing imports since chromium 105.xx)
 RUN wget -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN add-apt-repository "deb https://deb.nodesource.com/node_18.x ${RELEASE} main"
+RUN add-apt-repository "deb https://deb.nodesource.com/node_${NODE_VERSION}.x ${RELEASE} main"
 ## add llvm tool chain
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN add-apt-repository "deb http://apt.llvm.org/${RELEASE} llvm-toolchain-${RELEASE}${REPO_POSTFIX} main"
