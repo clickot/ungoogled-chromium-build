@@ -48,6 +48,6 @@ sed -i 's/ReadStampFile(STAMP_FILE).partition\(.*\)\[0\]/PACKAGE_VERSION/' ./too
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./out/Default/gn gen out/Default --fail-on-unused-args
 
-(cd "$_src_dir/third_party/node" && npm install node-linux-x64 && npm audit fix --force)
+(cd "$_src_dir/third_party/node" && npm install node-linux-x64@lts)
 
 ninja -C out/Default chrome chrome_sandbox chromedriver
