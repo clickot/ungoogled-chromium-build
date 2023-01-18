@@ -7,7 +7,7 @@ GIT_REPO="ungoogled-chromium"
 DISTRO_RELEASE=${1:-'debian:bullseye'}
 #DISTRO_RELEASE=${1:-'ubuntu:jammy'}
 LLVM_VERSION=${2:-'15'}
-NODE_VERSION=${3:-'16'}
+NODE_VERSION=${3:-'19'}
 
 DISTRO=$(echo ${DISTRO_RELEASE}| cut -d':' -f1)
 RELEASE=$(echo ${DISTRO_RELEASE}| cut -d':' -f2)
@@ -21,12 +21,12 @@ IMAGE="chromium-builder-${RELEASE}:llvm-${LLVM_VERSION}"
 
 cd $BASE_DIR 
 
-if [ -z "$(docker images -q ${IMAGE})" ] ; then
+#if [ -z "$(docker images -q ${IMAGE})" ] ; then
     echo -e "image '${IMAGE}' not found, building it first.\ndocker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} --build-arg NODE_VERSION=${NODE_VERSION} ."
     (cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} --build-arg NODE_VERSION=${NODE_VERSION} . )
-else
-    echo -e "reusing existing image '${IMAGE}'...\n"
-fi
+#else
+#    echo -e "reusing existing image '${IMAGE}'...\n"
+#fi
 
 [ -n "$(ls -A ungoogled-chromium)" ] || git submodule update --init --recursive
 
