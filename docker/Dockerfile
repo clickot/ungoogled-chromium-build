@@ -43,7 +43,7 @@ RUN llvm_package_version=$(apt list llvm-${LLVM_VERSION}-dev | grep -Po "\d+\.\d
   rm -f /usr/bin/lld-link && ln -s /usr/bin/lld-link-${LLVM_VERSION} /usr/bin/lld-link &&\
   ln -s /usr/lib/llvm-${LLVM_VERSION}/lib/clang/${llvm_package_version}/share /usr/lib/clang/${llvm_package_version}/share 
 
-## just for conveniance when opening a shell in container
+## just for convenience when opening a shell in container
 RUN echo 'alias ll="ls -al"' >> /root/.bashrc
 
 RUN mkdir /repo

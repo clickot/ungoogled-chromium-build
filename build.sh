@@ -18,7 +18,7 @@ mkdir -p "$_download_cache"
 "$_main_repo/utils/downloads.py" retrieve -i "$_main_repo/downloads.ini" -c "$_download_cache"
 "$_main_repo/utils/downloads.py" unpack -i "$_main_repo/downloads.ini" -c "$_download_cache" "$_src_dir"
 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
-"$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
+"$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches"
 "$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" -c "$_root_dir/target/domsubcache.tar.gz" "$_src_dir"
 cat "$_main_repo/flags.gn" "$_root_dir/flags.gn" > "$_src_dir/out/Default/args.gn"
 
