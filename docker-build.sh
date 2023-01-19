@@ -7,7 +7,7 @@ GIT_REPO="ungoogled-chromium"
 DISTRO_RELEASE=${1:-'debian:bullseye'}
 #DISTRO_RELEASE=${1:-'ubuntu:jammy'}
 LLVM_VERSION=${2:-'15'}
-NODE_VERSION=${3:-'19'}
+NODE_VERSION=${3:-'18'}
 
 DISTRO=$(echo ${DISTRO_RELEASE}| cut -d':' -f1)
 RELEASE=$(echo ${DISTRO_RELEASE}| cut -d':' -f2)

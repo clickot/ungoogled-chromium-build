@@ -7,7 +7,7 @@ ARG DISTRO
 ARG RELEASE
 ARG LLVM_VERSION="15"
 ARG REPO_POSTFIX="-${LLVM_VERSION}"
-ARG NODE_VERSION="19"
+ARG NODE_VERSION="18"
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && export DEBIAN_FRONTEND=noninteractive
 

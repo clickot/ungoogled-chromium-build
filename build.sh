@@ -48,6 +48,9 @@ sed -i 's/ReadStampFile(STAMP_FILE).partition\(.*\)\[0\]/PACKAGE_VERSION/' ./too
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./out/Default/gn gen out/Default --fail-on-unused-args
 
-(cd "$_src_dir/third_party/node" && npm install node-linux-x64)
+# instead if installing node as node_module, simply link to the node binary installed on OS 
+# (to get around typescript compile errors beacuse of String<->TrustedHtml assignements that appeared since 109.xx)
+#(cd "$_src_dir/third_party/node" && npm install node-linux-x64)
+mkdir -p third_party/node/linux/node-linux-x64/bin && ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
 ninja -C out/Default chrome chrome_sandbox chromedriver
