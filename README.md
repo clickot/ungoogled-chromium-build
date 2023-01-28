@@ -8,9 +8,9 @@ The code is mainly adapted from the [ungoogled-chromium-portablelinux](https://g
 ## building
 execute `docker-build.sh` script in the root dir. This will
 * build a docker image with all needed node, llvm and distro packages to build chromium
-* start the docker image, mounts the current dir and runs `build.sh` in it, which executes the actual build process.
+* start the docker image, mounts the current dir and runs `build.sh` in it, which executes the actual build process on ungoogled-chromium (download chromium source tar, unpack and patch it and execute ninja build on the result).
 
->Note that the build takes about 6 hours (on my computer) and consumes about 15G of disk space
+>Note that the build takes about 6 hours (on my computer) and consumes about 15G of disk space (you may delete the `target` dir __AFTER PACKAGING__, see [packaging](#packaging))
 
 The script accepts the following params:
 1. distro:release (defaults to 'debian:bullseye')
@@ -22,5 +22,5 @@ example: `./docker-build.sh ubuntu:yammy 16 19`
 >Note that users of other distros than ubuntu or debian reported compatibility problems when i used ubuntu as base image for build. I therefor recommend to stick to debian base image
 
 ## packaging
-After building, enter the `package` directory and excute `package.sh`. This will create a tar.xz and an AppImage file in the root dir. It takes about 2-3 minutes.
+After building, enter the `package` directory and excute `package.sh`. This will create a `tar.xz` and an `AppImage` file in the root dir. It takes about 2-3 minutes.
 You may use the `prepare-publish.sh` script to create commits in the `ungoogled-chromium-binaries` fork for a pull request in the origin [ungoogled-chromium-binaries](https://github.com/ungoogled-software/ungoogled-chromium-binaries) repo. Therefor adjust the paths at the beginning of the script to match the paths to the according repos in your filesystem.
