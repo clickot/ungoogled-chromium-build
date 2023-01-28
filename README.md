@@ -7,15 +7,18 @@ The code is mainly adapted from the [ungoogled-chromium-portablelinux](https://g
 
 ## building
 execute `docker-build.sh` script in the root dir. This will
-* build a docker images based on debian bullseye with all needed node, llvm and distro packages to build chromium
+* build a docker image with all needed node, llvm and distro packages to build chromium
 * start the docker image, mounts the current dir and runs `build.sh` in it, which executes the actual build process.
+
 >Note that the build takes about 6 hours (on my computer) and consumes about 15G of disk space
+
 The script accepts the following params:
 1. distro:release (defaults to 'debian:bullseye')
-2. mayjor llvm toolchain version version (defaults to '15')
+2. major llvm toolchain version (defaults to '15')
 3. major node version (defaults to '18')
 
 example: `./docker-build.sh ubuntu:yammy 16 19`
+
 >Note that users of other distros than ubuntu or debian reported compatibility problems when i used ubuntu as base image for build. I therefor recommend to stick to debian base image
 
 ## packaging
