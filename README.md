@@ -10,6 +10,12 @@ execute `docker-build.sh` script in the root dir. This will
 * build a docker images based on debian bullseye with all needed node, llvm and distro packages to build chromium
 * start the docker image, mounts the current dir and runs `build.sh` in it, which executes the actual build process.
 >Note that the build takes about 6 hours (on my computer) and consumes about 15G of disk space
+The script accepts the following params:
+1. distro:release (defaults to 'debian:bullseye')
+2. mayjor llvm toolchain version version (defaults to '15')
+3. major node version (defaults to '18')
+e.g. `./docker-build.sh ubuntu:yammy 16 19`
+>Note that users reported compatibility problems when i used ubuntu. I therefor recommend to stick to debian base image
 
 ## packaging
 After building, enter the `package` directory and excute `package.sh`. This will create a tar.xz and an AppImage file in the root dir. It takes about 2-3 minutes.
