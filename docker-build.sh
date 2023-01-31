@@ -6,12 +6,12 @@ GIT_REPO="ungoogled-chromium"
 
 DISTRO_RELEASE=${1:-'debian:bullseye'}
 #DISTRO_RELEASE=${1:-'ubuntu:jammy'}
-LLVM_VERSION=${2:-'15'}
+LLVM_VERSION=${2:-'16'}
 NODE_VERSION=${3:-'18'}
 
 DISTRO=$(echo ${DISTRO_RELEASE}| cut -d':' -f1)
 RELEASE=$(echo ${DISTRO_RELEASE}| cut -d':' -f2)
-[ $LLVM_VERSION == "16" ] || REPO_POSTFIX="-$LLVM_VERSION"
+[ "$LLVM_VERSION" -gt "16" ] || REPO_POSTFIX="-$LLVM_VERSION"
 
 IMAGE="chromium-builder-${RELEASE}:llvm-${LLVM_VERSION}"
 
@@ -29,8 +29,7 @@ echo "==============================================================="
 
 cd ${BASE_DIR}
 
-echo "docker run -it -v ${BASE_DIR}:/repo ${IMAGE} /bin/bash -c \"LLVM_VERSION=${LLVM_VERSION} /repo/build.sh\""
-docker run -it -v ${BASE_DIR}:/repo ${IMAGE} /bin/bash -c "LLVM_VERSION=${LLVM_VERSION} /repo/build.sh"
+docker run -it -v ${BASE_DIR}:/repo ${IMAGE} /bin/bash -c "/repo/build.sh"
 
 BUILD_END=$(date)
 echo "==============================================================="
