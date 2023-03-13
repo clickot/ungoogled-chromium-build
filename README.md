@@ -14,12 +14,12 @@ execute `docker-build.sh` script in the root dir. This will
 
 The script accepts the following params:
 1. distro:release (defaults to 'debian:bullseye')
-2. major llvm toolchain version (defaults to '15')
+2. major llvm toolchain version (defaults to '16')
 3. major node version (defaults to '18')
 
-example: `./docker-build.sh ubuntu:yammy 16 19`
+example: `./docker-build.sh ubuntu:yammy 15 19`
 
->Note that users of other distros than ubuntu or debian reported compatibility problems when i used ubuntu as base image for build. I therefor recommend to stick to debian base image
+>Note that users of other distros than ubuntu or debian reported compatibility problems when i used ubuntu instead of debian as base image for builds. I therefor recommend to stick to debian base image.
 
 ## packaging
 After building, enter the `package` directory and excute `package.sh`. This will create a `tar.xz` and an `AppImage` file in the root dir. It takes about 2-3 minutes.
