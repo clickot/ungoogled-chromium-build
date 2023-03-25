@@ -17,8 +17,8 @@ IMAGE="chromium-builder-${RELEASE}:llvm-${LLVM_VERSION}"
 
 cd $BASE_DIR 
 
-echo "docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} --build-arg NODE_VERSION=${NODE_VERSION} ."
-(cd $BASE_DIR/docker && docker build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} --build-arg NODE_VERSION=${NODE_VERSION} . )
+echo "docker buildx build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} --build-arg NODE_VERSION=${NODE_VERSION} ."
+(cd $BASE_DIR/docker && docker buildx build -t ${IMAGE} --build-arg DISTRO=${DISTRO} --build-arg RELEASE=${RELEASE} --build-arg LLVM_VERSION=${LLVM_VERSION} --build-arg REPO_POSTFIX=${REPO_POSTFIX} --build-arg NODE_VERSION=${NODE_VERSION} . )
 
 [ -n "$(ls -A ungoogled-chromium)" ] || git submodule update --init --recursive
 
