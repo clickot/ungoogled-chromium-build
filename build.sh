@@ -33,15 +33,18 @@ export CXXFLAGS+="-resource-dir=${llvm_resource_dir} -B${LLVM_BIN}"
 export CPPFLAGS+="-resource-dir=${llvm_resource_dir} -B${LLVM_BIN}"
 export CFLAGS+="-resource-dir=${llvm_resource_dir} -B${LLVM_BIN}"
 
+echo "CXXFLAGS=$CXXFLAGS  CFLAGS=$CFLAGS"
+
 cd "${src_dir}"
 
-# ugly hack to bypass the check for a certain llvm package version (seems to be introduced in chromium 107.xx)
-sed -i 's/ReadStampFile(STAMP_FILE).partition\(.*\)\[0\]/PACKAGE_VERSION/' ./tools/clang/scripts/update.py
+# hack to bypass the check for a certain llvm package version (seems to be introduced in chromium 107.xx)
+patch -Rp1 -i ../../patches/REVERT-clang-version-check.patch
+# Revert addition of compiler flag that needs newer clang (taken from ungoogled-chromium-archlinux)
+patch -Rp1 -i ../../patches/REVERT-disable-autoupgrading-debug-info.patch
+# instead if installing node as node_module, simply link to the node binary installed on OS (taken from ungoogled-chromium-archlinux)
+mkdir -p third_party/node/linux/node-linux-x64/bin && ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./out/Default/gn gen out/Default --fail-on-unused-args
-
-# instead if installing node as node_module, simply link to the node binary installed on OS 
-mkdir -p third_party/node/linux/node-linux-x64/bin && ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
 ninja -C out/Default chrome chrome_sandbox chromedriver
