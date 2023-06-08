@@ -29,7 +29,7 @@ echo "==============================================================="
 
 cd ${BASE_DIR}
 
-docker run -it -v ${BASE_DIR}:/repo ${IMAGE} /bin/bash -c "/repo/build.sh" | tee build.log
+docker run -it -v ${BASE_DIR}:/repo ${IMAGE} /bin/bash -c "/repo/build.sh"
 
 BUILD_END=$(date)
 echo "==============================================================="

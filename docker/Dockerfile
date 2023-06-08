@@ -53,7 +53,7 @@ RUN rm -f /usr/bin/lld && ln -s /usr/bin/lld-${LLVM_VERSION} /usr/bin/lld \
  && rm -f /usr/bin/ld.lld && ln -s /usr/bin/ld.lld-${LLVM_VERSION} /usr/bin/ld.lld \
  && rm -f /usr/bin/lld-link && ln -s /usr/bin/lld-link-${LLVM_VERSION} /usr/bin/lld-link
 # setup additional links for llvm resource dir
-RUN llvm_package_version=$(apt list llvm-${LLVM_VERSION}-dev | grep -Po "\d+\.\d+\.\d+")\
+RUN llvm_package_version="$(apt list llvm-${LLVM_VERSION}-dev | grep -Po "\d+\.\d+\.\d+")" || llvm_package_version="${LLVM_VERSION}.0.0"\
  && if [ -d "/usr/lib/llvm-${LLVM_VERSION}/lib/clang/${LLVM_VERSION}/share" ]; then (cd /usr/lib/clang/${LLVM_VERSION} && ln -s  ../../llvm-${LLVM_VERSION}/lib/clang/${LLVM_VERSION}/share);\
     else (cd /usr/lib/clang/${llvm_package_version} && ln -s  ../../llvm-${LLVM_VERSION}/lib/clang/${llvm_package_version}/share); fi
 
