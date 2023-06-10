@@ -30,26 +30,28 @@ mkdir -p "${src_dir}/out/Default" "${download_cache}"
 
 # prepare sources 
 # ==================================================
-## apply ungoogled-chromium patches
-"${main_repo}/utils/prune_binaries.py" "${src_dir}" "${main_repo}/pruning.list"
-"${main_repo}/utils/patches.py" apply "${src_dir}" "${main_repo}/patches"
-"${main_repo}/utils/domain_substitution.py" apply -r "${main_repo}/domain_regex.list" -f "${main_repo}/domain_substitution.list" -c "${root_dir}/target/domsubcache.tar.gz" "${src_dir}"
-
 ## apply own patches needed for build
 cd "${src_dir}"
-# remove the check for a certain llvm package version (seems to be introduced in chromium 107.xx)
-patch -Rp1 -i ${patches_dir}/remove-clang-version-check.patch
+# revert addition of check for a certain llvm package version (seems to be introduced in chromium 107.xx)
+patch -Rp1 -i ${patches_dir}/REVERT-clang-version-check.patch
 # revert addition of compiler flag that needs newer clang (taken from ungoogled-chromium-archlinux)
 patch -Rp1 -i ${patches_dir}/REVERT-disable-autoupgrading-debug-info.patch
 # use the --oauth2-client-id= and --oauth2-client-secret= switches for setting GOOGLE_DEFAULT_CLIENT_ID 
 # and GOOGLE_DEFAULT_CLIENT_SECRET at runtime (taken from ungoogled-chromium-archlinux)
 patch -Np1 -i ${patches_dir}/use-oauth2-client-switches-as-default.patch
+# Disable kGlobalMediaControlsCastStartStop by default
+# https://crbug.com/1314342
+patch -Np1 -i ${patches_dir}/disable-GlobalMediaControlsCastStartStop.patch
 # VAAPI wayland support (taken from ungoogled-chromium-archlinux)
 patch -Np1 -i ${patches_dir}/ozone-add-va-api-support-to-wayland.patch
 
+## apply ungoogled-chromium patches
+"${main_repo}/utils/prune_binaries.py" "${src_dir}" "${main_repo}/pruning.list"
+"${main_repo}/utils/patches.py" apply "${src_dir}" "${main_repo}/patches"
+"${main_repo}/utils/domain_substitution.py" apply -r "${main_repo}/domain_regex.list" -f "${main_repo}/domain_substitution.list" -c "${root_dir}/target/domsubcache.tar.gz" "${src_dir}"
+
 ## Link to system tools required by the build
-mkdir -p third_party/node/linux/node-linux-x64/bin
-ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin
+mkdir -p third_party/node/linux/node-linux-x64/bin && ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin
 
 ### build
 # ==================================================
