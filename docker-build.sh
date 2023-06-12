@@ -4,8 +4,7 @@
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 GIT_REPO="ungoogled-chromium"
 
-DISTRO_RELEASE=${1:-'debian:bullseye'}
-#DISTRO_RELEASE=${1:-'ubuntu:jammy'}
+DISTRO_RELEASE=${1:-'debian:bookworm'}
 LLVM_VERSION=${2:-'16'}
 NODE_VERSION=${3:-'18'}
 

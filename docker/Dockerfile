@@ -1,7 +1,7 @@
 # this Dockerfile is an adaption of https://github.com/ungoogled-software/ungoogled-chromium-portablelinux/blob/master/docker-stage1/Dockerfile
 
 ARG DISTRO="debian"
-ARG RELEASE="bullseye"
+ARG RELEASE="bookworm"
 
 FROM ${DISTRO}:${RELEASE}
 
@@ -19,15 +19,14 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
  && apt-get update && apt-get -y --no-install-recommends upgrade
 #  install the needed base packages to add repos
 RUN apt-get -y --no-install-recommends install ca-certificates wget lsb-release software-properties-common gnupg2
-# add node and llvm repos
-RUN wget -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -\
- && add-apt-repository "deb https://deb.nodesource.com/node_${NODE_VERSION}.x ${RELEASE} main"\
- && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -\
+# add llvm repo
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -\
  && add-apt-repository "deb http://apt.llvm.org/${RELEASE} llvm-toolchain-${RELEASE}${REPO_POSTFIX} main"\
- && apt-get update
+ && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -\
+ && add-apt-repository "deb http://apt.llvm.org/${RELEASE} llvm-toolchain-${RELEASE}${REPO_POSTFIX} main"
+ 
+RUN apt-get update
 
-## install node
-RUN apt-get -y install --no-install-recommends nodejs
 # install llvm toolchain
 RUN apt-get -y install --no-install-recommends clang-${LLVM_VERSION} clang-${LLVM_VERSION}-doc clangd-${LLVM_VERSION} clang-format-${LLVM_VERSION} clang-tools-${LLVM_VERSION}\
  libc++-${LLVM_VERSION}-dev libc++abi-${LLVM_VERSION}-dev libclang-${LLVM_VERSION}-dev libclang-rt-${LLVM_VERSION}-dev libfuzzer-${LLVM_VERSION}-dev\
@@ -38,8 +37,8 @@ RUN apt-get -y install --no-install-recommends bison debhelper desktop-file-util
  libexif-dev libflac-dev libgbm-dev libgcrypt20-dev libgl1-mesa-dev libgles2-mesa-dev libglew-dev libglib2.0-dev libglu1-mesa-dev libgtk-3-dev libhunspell-dev libjpeg-dev\
  libjs-jquery-flot libjsoncpp-dev libkrb5-dev liblcms2-dev libminizip-dev libmodpbase64-dev libnspr4-dev libnss3-dev libopenjp2-7-dev libopus-dev libpam0g-dev libpci-dev\
  libpipewire-0.3-dev libpng-dev libpulse-dev libre2-dev libsnappy-dev libspeechd-dev libudev-dev libusb-1.0-0-dev libva-dev libvpx-dev libwebp-dev libx11-xcb-dev\
- libxcb-dri3-dev libxshmfence-dev libxslt1-dev libxss-dev libxt-dev libxtst-dev mesa-common-dev ninja-build pkg-config python3-jinja2 python3-xcbgen python-is-python3\ 
- python-setuptools qtbase5-dev uuid-dev valgrind wdiff x11-apps xcb-proto xfonts-base xvfb xz-utils yasm
+ libxcb-dri3-dev libxshmfence-dev libxslt1-dev libxss-dev libxt-dev libxtst-dev mesa-common-dev ninja-build nodejs npm pkg-config python3-jinja2 python3-xcbgen\
+ python-is-python3 python3-setuptools qtbase5-dev uuid-dev valgrind wdiff x11-apps xcb-proto xfonts-base xvfb xz-utils yasm
 # update npm
 RUN npm update -g npm
 
