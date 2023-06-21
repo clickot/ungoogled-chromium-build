@@ -1,4 +1,5 @@
 # ungoogled-chromium-build
+>Note that this build produces results that are currently not working with ubuntu 20.04 (because a an older gclib version; the chromium code needs since 114.xx a newer version of this to get compiled) but working with ubuntu 22.04 and higher and with debian bookworm.
 
 Portable Linux build and packaging for [ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium) to be published in the
 [ungoogled-chromium-binaries](https://github.com/ungoogled-software/ungoogled-chromium-binaries) web page found [here](https://ungoogled-software.github.io/ungoogled-chromium-binaries/).
