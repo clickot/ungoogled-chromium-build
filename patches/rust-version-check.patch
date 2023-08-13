@@ -5,7 +5,7 @@
          return match.group(1)
  
 -    return None
-+    return GetLatestRevision()
++    return GetRustClangRevision()
  
  
  def CheckUrl(url) -> bool:
