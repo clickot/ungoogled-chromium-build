@@ -70,5 +70,6 @@ cat "${main_repo}/flags.gn" "${root_dir}/flags.gn" > "${src_dir}/out/Default/arg
 ## execute build
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./out/Default/gn gen out/Default --fail-on-unused-args
-#
+
 ninja -C out/Default chrome chrome_sandbox chromedriver
+
