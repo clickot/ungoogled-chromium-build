@@ -1,6 +1,9 @@
 # ungoogled-chromium-build
+>__The code of this repository is moved to [ungoogled-chromium-portablelinux](https://github.com/ungoogled-software/ungoogled-chromium-portablelinux) and will be maintained there in future. This repo is therfore archived.<br>
+Thanks to all that followed and starred this repo.__
+
 >__Note that this build produces results that are currently not working with ubuntu 20.04. The reason is, that the chromium code since 114.xx needs a newer gclib version than ubuntu 20.04 (and debian bullseye) and does not compile anymore with older gclib versions. Therefore I had to switch to debian:bookworm as builder image. The build results do work e.g. on ubuntu 22.04 and higher and debian bookworm.<br/>
-Those how do not want to upgrade their ubuntu 20.04 might use the flatpak version of ungoogled-chromium. Flatpaks to not rely on the gclib on the underlying system. See [here](https://github.com/clickot/ungoogled-chromium-build/issues/4) for additional installation hints.__
+Those who do not want to upgrade their ubuntu 20.04 might use the flatpak version of ungoogled-chromium. Flatpaks to not rely on the glibc on the underlying system. See [here](https://github.com/clickot/ungoogled-chromium-build/issues/4) for additional installation hints.__
 
 Portable Linux build and packaging for [ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium) to be published in the
 [ungoogled-chromium-binaries](https://github.com/ungoogled-software/ungoogled-chromium-binaries) web page found [here](https://ungoogled-software.github.io/ungoogled-chromium-binaries/).
